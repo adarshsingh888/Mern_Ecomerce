@@ -1,12 +1,16 @@
 import express from "express";
-import {placeOrder , placeOrderStripe ,placeOrderRazorpay, allOrders , userOrders, updateStatus} from "../controllers/orederController.js";
+
 import adminAuth from '../middleware/adminAuth.js' 
 import authUser from '../middleware/auth.js'
+import { verifyRazorpay , verifyStripe, placeOrder, placeOrderStripe, placeOrderRazorpay, allOrders, userOrders, updateStatus } from "../controllers/orederController.js";
+
+
+
 
 const orderRouter = express.Router();
 //Admin Feature 
 orderRouter.post("/list", adminAuth,allOrders); 
-orderRouter.get("/status", adminAuth,updateStatus); 
+orderRouter.post("/status", adminAuth,updateStatus); 
 
 //Payment Features 
 
@@ -16,5 +20,12 @@ orderRouter.post('/razorpay', authUser, placeOrderRazorpay)
 
 //User feature 
 orderRouter.post('/userorders',authUser,userOrders)
+
+//verify payment 
+
+orderRouter.post('/verifyStripe',authUser,verifyStripe)
+orderRouter.post('/verifyRazorpay',verifyRazorpay)
+
+
 
 export default orderRouter
